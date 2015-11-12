@@ -10,7 +10,7 @@ namespace GildedRose.Tests
         [Fact]
         public void TestUpdateOnZeroZeroItem()
         {
-            var resultAndStrategyPair = new List<Tuple<Item, IUpdateStrategy>>
+            var resultAndStrategyPairs = new List<Tuple<Item, IUpdateStrategy>>
             {
                 Tuple.Create(new Item {Quality = 0, SellIn = 0}, (IUpdateStrategy)new DoNothingUpdate()),
                 Tuple.Create(new Item {Quality = 1, SellIn = -1}, (IUpdateStrategy)new AgedBrieUpdateStrategy()),
@@ -19,7 +19,7 @@ namespace GildedRose.Tests
                 Tuple.Create(new Item {Quality = 0, SellIn = -1}, (IUpdateStrategy)new StandardUpdateStrategy()),
             };
 
-            foreach (var itemPair in resultAndStrategyPair)
+            foreach (var itemPair in resultAndStrategyPairs)
             {
                 var testCase = new Item { Quality = 0, SellIn = 0 };
                 itemPair.Item2.UpdateQuality(testCase);
@@ -31,7 +31,7 @@ namespace GildedRose.Tests
         [Fact]
         public void TestUpdateOnTenTenItem()
         {
-            var resultAndStrategyPair = new List<Tuple<Item, IUpdateStrategy>>
+            var resultAndStrategyPairs = new List<Tuple<Item, IUpdateStrategy>>
             {
                 Tuple.Create(new Item {Quality = 10, SellIn = 10}, (IUpdateStrategy)new DoNothingUpdate()),
                 Tuple.Create(new Item {Quality = 11, SellIn = 9}, (IUpdateStrategy)new AgedBrieUpdateStrategy()),
@@ -40,7 +40,7 @@ namespace GildedRose.Tests
                 Tuple.Create(new Item {Quality = 9, SellIn = 9}, (IUpdateStrategy)new StandardUpdateStrategy()),
             };
 
-            foreach (var itemPair in resultAndStrategyPair)
+            foreach (var itemPair in resultAndStrategyPairs)
             {
                 var testCase = new Item { Quality = 10, SellIn = 10 };
                 itemPair.Item2.UpdateQuality(testCase);
@@ -52,7 +52,7 @@ namespace GildedRose.Tests
         [Fact]
         public void TestUpdateOnProvidedValues()
         {
-            var items = new List<Tuple<Item, Item, IUpdateStrategy>>
+            var resultAndStrategyPairs = new List<Tuple<Item, Item, IUpdateStrategy>>
             {
                 Tuple.Create(new Item {Quality = 19, SellIn = 9}, new Item {Name = "+5 Dexterity Vest", Quality = 20, SellIn = 10}, (IUpdateStrategy) new StandardUpdateStrategy()),
                 Tuple.Create(new Item {Quality = 1, SellIn = 1}, new Item {Name = "Aged Brie", SellIn = 2, Quality = 0}, (IUpdateStrategy) new AgedBrieUpdateStrategy()),
@@ -62,7 +62,7 @@ namespace GildedRose.Tests
                 Tuple.Create(new Item {Quality = 4, SellIn = 2}, new Item {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}, (IUpdateStrategy) new StandardUpdateStrategy(2))
             };
 
-            foreach (var itemPair in items)
+            foreach (var itemPair in resultAndStrategyPairs)
             {
                 itemPair.Item3.UpdateQuality(itemPair.Item2);
                 Assert.Equal(itemPair.Item1.Quality, itemPair.Item2.Quality);
